@@ -5,10 +5,11 @@ import { scale, verticalScale, horizontalScale } from '@/utils/responsive';
 import { Image } from 'expo-image';
 import { blurhash } from '@/utils/constants';
 import { fontFamilies } from '@/theme';
+import { useNavigation } from '@react-navigation/native';
 
 interface SearchResultCardProps {
   book: Book;
-  onPress?: () => void;
+  onPress?: (id: string) => void;
 }
 
 const SearchResultCard = ({ book, onPress }: SearchResultCardProps) => {
@@ -19,24 +20,31 @@ const SearchResultCard = ({ book, onPress }: SearchResultCardProps) => {
   const title = volumeInfo.title;
   const author = authors;
   const image = thumbnailUrl;
+  const id = book.id;
+
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    onPress?.(id);
+  };
 
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
+    <TouchableOpacity onPress={handlePress} activeOpacity={0.8}>
       <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image
-          style={styles.image}
-          contentFit="contain"
-          transition={1000}
-          placeholder={blurhash}
-          source={{ uri: image }}
-        />
-      </View>
-      <View style={styles.info}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.author}>By: {author}</Text>
-      </View>
+        <View style={styles.imageContainer}>
+      <Image
+        style={styles.image}
+        contentFit="contain"
+        transition={1000}
+        placeholder={blurhash}
+        source={{ uri: image }}
+      />
     </View>
+    <View style={styles.info}>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.author}>By: {author}</Text>
+        </View>
+      </View>
     </TouchableOpacity>
   );
 };

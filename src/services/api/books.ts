@@ -54,6 +54,16 @@ export const booksApi = {
     return response.data;
   },
 
+  getBookById: async (id: string): Promise<Book> => {
+    const response = await apiClient.get(`/books/${id}`);
+    return response.data;
+  },
+
+  getBookTableOfContents: async (id: string): Promise<Book> => {
+    const response = await apiClient.get(`/books/${id}/toc`);
+    return response.data;
+  },
+
   getCurrentlyReading: async (): Promise<{ books: Book[] }> => {
     const response = await apiClient.get('/books/currently-reading');
     return response.data;

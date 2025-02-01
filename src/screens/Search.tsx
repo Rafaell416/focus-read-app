@@ -9,14 +9,23 @@ import { useSearchBooks } from '@/hooks/search/useSearchBooks';
 import { Book } from '@/services/api/books';
 import { fontFamilies } from '@/theme';
 import { scale } from '@/utils/responsive';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { PrivateStackParamList } from '@/types/navigation';
 
-const Search = () => {
+type Props = NativeStackScreenProps<PrivateStackParamList, 'SearchModal'>;
+
+export default function Search({ navigation }: Props) {
   const insets = useSafeAreaInsets();
   const { books, isLoading, error, query, setQuery } = useSearchBooks();
 
   const renderItem = useCallback(({ item }: { item: Book }) => (
-    <SearchResultCard book={item} />
-  ), []);
+    <SearchResultCard 
+      book={item} 
+      onPress={(id) => {
+        navigation.navigate('Details', { id });
+      }}
+    />
+  ), [navigation]);
 
   return (
     <View style={styles.container}>
@@ -67,5 +76,3 @@ const styles = StyleSheet.create({
     fontFamily: fontFamilies.montserrat.regular,
   },
 });
-
-export default Search;

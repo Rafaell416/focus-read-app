@@ -1,5 +1,5 @@
-import AppLoading from 'expo-app-loading';
-import { View } from 'react-native';
+import { useEffect } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
 import { 
   useFonts, 
   Montserrat_100Thin,
@@ -10,7 +10,9 @@ import {
   Montserrat_600SemiBold,
   Montserrat_700Bold 
 } from '@expo-google-fonts/montserrat';
+import AppRoutes from './src/routes';
 
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -23,11 +25,17 @@ export default function App() {
     Montserrat_700Bold,
   });
 
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
   }
 
   return (
-    <View />
+    <AppRoutes />
   );
 }

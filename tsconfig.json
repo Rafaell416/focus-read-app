@@ -5,9 +5,12 @@
     "baseUrl": ".",
     "paths": {
       "@/*": [
-        "./*"
+        "./src/*"
       ]
-    }
+    },
+    "types": [
+      "@types/react-navigation"
+    ]
   },
   "include": ["**/*.ts", "**/*.tsx"]
 }

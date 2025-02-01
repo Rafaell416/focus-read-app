@@ -4,7 +4,7 @@ import { colors } from '@/theme';
 import { verticalScale, horizontalScale, scale } from '@/utils/responsive';
 import Icon from '@expo/vector-icons/FontAwesome5';
 import { fontFamilies } from '@/theme';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 
 interface SearchBarProps {
   query: string;
@@ -12,11 +12,11 @@ interface SearchBarProps {
 }
 
 const SearchBar = ({ query, setQuery }: SearchBarProps) => {
-  const router = useRouter();
   const inputRef = useRef<TextInput>(null);
-
+  const navigation = useNavigation();
+  
   const goBack = () => {
-    router.back();
+    navigation.goBack();
   }
 
   const focus = () => {
@@ -25,8 +25,13 @@ const SearchBar = ({ query, setQuery }: SearchBarProps) => {
 
   const blur = () => {
     inputRef.current?.blur();
-    goBack();
   }
+
+  const cancel = () => {
+    blur();
+    goBack()
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.searchBar}>
@@ -52,7 +57,7 @@ const SearchBar = ({ query, setQuery }: SearchBarProps) => {
         />
       </View>
       <View style={styles.clearButton}>
-        <Pressable onPress={blur}>
+        <Pressable onPress={cancel}>
           <Text style={styles.clearButtonText}>
             Cancel
           </Text>

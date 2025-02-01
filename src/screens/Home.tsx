@@ -2,22 +2,25 @@ import { View, StyleSheet } from 'react-native';
 import { colors } from '@/theme/colors';
 import Header from '@/components/home/Header';
 import SearchBarButton from '@/components/home/SearchBarButton';
-import { useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { PrivateStackParamList } from '@/types/navigation';
 
-export default function Home() {
-  const router = useRouter();
+type Props = NativeStackScreenProps<PrivateStackParamList, 'Home'>;
+
+export default function Home({ navigation }: Props) {
 
   const handleSearchPress = () => {
-    router.push('/search');
+    navigation.navigate('SearchStack');
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Header />
       <SearchBarButton 
         onPress={handleSearchPress}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
