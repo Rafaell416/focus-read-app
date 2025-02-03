@@ -1,50 +1,5 @@
 import { apiClient } from './client';
-
-export interface ImageLinks {
-  smallThumbnail?: string;
-  thumbnail?: string;
-  small?: string;
-  medium?: string;
-  large?: string;
-  extraLarge?: string;
-}
-
-export interface IndustryIdentifier {
-  type: string;
-  identifier: string;
-}
-
-export interface VolumeInfo {
-  title: string;
-  subtitle?: string;
-  authors: string[];
-  publisher?: string;
-  publishedDate?: string;
-  description?: string;
-  industryIdentifiers?: IndustryIdentifier[];
-  pageCount?: number;
-  categories?: string[];
-  averageRating?: number;
-  ratingsCount?: number;
-  imageLinks?: ImageLinks;
-  language?: string;
-  previewLink?: string;
-  infoLink?: string;
-}
-
-export interface Book {
-  id: string;
-  volumeInfo: VolumeInfo;
-}
-
-export interface SearchBooksResponse {
-  books: Book[];
-  totalItems: number;
-}
-
-export interface BookListResponse {
-  books: Book[];
-}
+import { Book, SearchBooksResponse, TableOfContents } from '@/types/books';
 
 export const booksApi = {
   search: async (query: string): Promise<SearchBooksResponse> => {
@@ -54,13 +9,13 @@ export const booksApi = {
     return response.data;
   },
 
-  getBookById: async (id: string): Promise<Book> => {
-    const response = await apiClient.get(`/books/${id}`);
+  getBookById: async (id: string, signal?: AbortSignal): Promise<Book> => {
+    const response = await apiClient.get(`/books/${id}`, { signal });
     return response.data;
   },
 
-  getBookTableOfContents: async (id: string): Promise<Book> => {
-    const response = await apiClient.get(`/books/${id}/toc`);
+  getBookTableOfContents: async (id: string, signal?: AbortSignal): Promise<TableOfContents> => {
+    const response = await apiClient.get(`/books/${id}/toc`, { signal });
     return response.data;
   },
 
